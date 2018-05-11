@@ -1,0 +1,138 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Marketplace
+Explore
+ @rcortez1775
+Sign out
+1
+0 2 sethmh82/hangman
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
+hangman/index.html
+691c17e  on Apr 7, 2017
+@sethmh82 sethmh82 Update index.html
+     
+138 lines (94 sloc)  2.69 KB
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Seth's Hangman</title>
+
+
+<link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div id="container">
+	WORD: <span id="theWord"></span><br>
+	LETTSE: <span id="letterBlanks"></span><br>
+	WINS: <span id="winTotal"></span><br>
+	LOSSES: <span id="lossCount"></span><br>
+	LIVES LEFT: <span id="user-lives">8</span><br>
+	LETTERS GUESSED: <span id="lettersGuessed"></span><br>
+
+	<img id="hangman" alt="hangman-image" src="assets/images/hangman1.png">
+
+</div>
+<script>
+var words =["jump", "campus", "donald", "coding", "easy", "extremely", "dictionary"]
+var alphabetArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+var alphabet = getAlphabetArray();
+var wins = 0,
+losses = 0,
+correct = 0,
+lives = 8,
+lettersGuessed=[],
+letterBlanks=[],
+randomWord = "";
+var word = "timeup";
+function gameOver() {
+	if (letterBlanks.indexOf("_") === -1) {
+		wins++;
+		alert("YA YOU WON!");
+	} else {
+		losses++;
+		alert("SO SAD... YOU LOST")
+	}
+	
+	document.getElementById("winCount").innerHTML = wins;
+	document.getElementById("lossCount").innerHTML = losses;
+	//Let's play again!
+	restartTheGame();
+	}
+function checkGameOver () {
+	return livesLeft === 0 || correct == 6;
+}
+function isValidLetter(letter){
+	return alphabet.indexOF(letter) > -1;
+	}
+function updateWrongGuess() {
+	 livesLeft--;
+	 document.getElementById("lettersGuessed").innerHTML = lettersGuessed.join(" ");
+	 document.getElementById("user-lives").innerHTML = livesLeft;
+}
+function inititalizGame(){
+	livesLeft = 8;
+	lettersGuessed=[];
+	letterBlanks=[];
+	randomword = words [Math.floor ((Math.random()=words.length))];
+	for (var i=0; i < randomWord.length; i++){
+		letterBlanks.push("_");
+	}
+}
+function getAlphabetArray () {
+	var alphabetArray=[];
+	for (var i = "a".charCodeAt(0); i <= "z".charCodeAt(0); i++){
+		alphabetArray.push(String.fromCharCode(i));
+	}
+	return alphabetArray;
+}
+	
+document.onkeyup = function(event) {
+	
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+	
+	if (word.indexOf (userGuess) > -1) {
+		alert("You guessed a correct letter");
+		document.getElementById('theWord').innerHTML += userGuess;
+		document.getElementById('lettersGuessed').innerHTML += userGuess;
+		correct = correct + 1;
+		if (correct == 6) {
+    		alert("YOU WON");
+    		inititalizGame();
+    	}
+} else {
+	lives = lives - 1;
+	if (lives == 0) {
+    	alert("YOU LOSE");
+	} else {
+	alert("WRONG GUESS! YOU NOW HAVE " + lives + " LIVES.");
+		document.getElementById('lettersGuessed').innerHTML += userGuess;
+		document.getElementById('user-lives').innerHTML = lives;
+		}
+		
+}
+	
+}
+</script>
+
+</body>
+</html>
+© 2018 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+API
+Training
+Shop
+Blog
+About
+Press h to open a hovercard with more details.
